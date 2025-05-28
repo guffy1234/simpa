@@ -8,9 +8,9 @@ $basePath = "c:\Simpa"
 $wslPath = "$basePath\wsl"
 $installPath = "$wslPath\$instanceName"
 $imagePath = "$wslPath\$imageFile"
-$envScriptPathWin = "$basePath\scripts\$envScriptName"
-$envScriptPathMnt = "/mnt/c/Simpa/scripts/$envScriptName"
-$envScriptPathWsl = "/home/simuser/install_simpa.sh"
+$envScriptPathWin = "$basePath\scripts\simpa24\*sh"
+$envScriptPathMnt = "/mnt/c/Simpa/scripts/simpa2/*.sh"
+$envScriptPathWsl = "/home/simuser/"
 
 # Create directories
 New-Item -ItemType Directory -Force -Path $wslPath | Out-Null
@@ -127,11 +127,11 @@ wsl -d $instanceName -u simuser -- bash -c "mkdir -p ~ && cp $envScriptPathMnt $
 Write-Host "Making $envScriptPathWsl executable..."
 wsl -d $instanceName -u simuser -- bash -c @"
 set -e
-chmod +x $envScriptPathWsl
+chmod +x $envScriptPathWsl/*.sh
 "@
 
 Write-Host "Setup complete! WSL instance $instanceName is ready."
 Write-Host "Start it with 'wsl -d $instanceName'."
-Write-Host "To run the environment setup script, run: $envScriptPathWsl"
+Write-Host "To run the environment setup script, run: $envScriptPathWsl/install_simpa.sh"
 
 Set-Location -Path $basePath
